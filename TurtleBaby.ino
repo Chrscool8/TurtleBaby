@@ -1,4 +1,7 @@
 #include <Arduboy2.h>
+Arduboy2 arduboy;
+
+#include "spr_title.h"
 #include "spr_turtle.h"
 
 #define screen_width 128
@@ -6,17 +9,29 @@
 
 #define horizon_height 22
 
-Arduboy2 arduboy;
+enum rooms
+{
+  rm_menu,
+  rm_game
+};
+
+unsigned int room = rm_menu;
+
 Sprites sprites;
 
 unsigned int global_tick = 0;
 
 int player_x = screen_width * .5;
 
+int common_var = 0;
+
+bool frame = false;
+
 void setup()
 {
   arduboy.begin();
   arduboy.setFrameRate(60);
+  common_var = 0;
 }
 
 void ripple(double percent)
@@ -44,28 +59,48 @@ void loop()
   else
     global_tick += 1;
 
-  if (arduboy.pressed(LEFT_BUTTON))
-    player_x -= 1;
+  if (room == rm_menu)
+  {
+    if (common_var < 100)
+      common_var += 1;
+    else
+      frame = true;
 
-  if (arduboy.pressed(RIGHT_BUTTON))
-    player_x += 1;
+    arduboy.clear();
 
-  player_x = max(1 + spr_turtle_width * .5, min(player_x, screen_width - spr_turtle_width * .5));
+    draw_sprite(spr_title_frames, 0, 1, (1 - (common_var / 100.)) * -screen_width, 0);
 
-  arduboy.clear();
+    if (arduboy.pressed(B_BUTTON) or arduboy.pressed(B_BUTTON))
+      room = rm_game;
+  }
+  else if (room == rm_game)
+  {
+    if (arduboy.pressed(LEFT_BUTTON))
+      player_x -= 1;
 
-  // horizon
-  arduboy.drawFastHLine(0, horizon_height, screen_width);
+    if (arduboy.pressed(RIGHT_BUTTON))
+      player_x += 1;
 
-  ripple((double)((global_tick + 00) % 100) / 100.);
-  ripple((double)((global_tick + 25) % 100) / 100.);
-  ripple((double)((global_tick + 50) % 100) / 100.);
-  ripple((double)((global_tick + 75) % 100) / 100.);
+    player_x = max(1 + spr_turtle_width * .5, min(player_x, screen_width - spr_turtle_width * .5));
 
-  draw_sprite(spr_turtle_frames, global_tick * .4, spr_turtle_number, player_x, screen_height * .75, true, spr_turtle_width, spr_turtle_height);
+    arduboy.clear();
 
-  // border
-  arduboy.drawRect(0, 0, screen_width, screen_height);
+    // horizon
+    arduboy.drawFastHLine(0, horizon_height, screen_width);
 
+    ripple((double)((global_tick + 00) % 100) / 100.);
+    ripple((double)((global_tick + 25) % 100) / 100.);
+    ripple((double)((global_tick + 50) % 100) / 100.);
+    ripple((double)((global_tick + 75) % 100) / 100.);
+
+    draw_sprite(spr_turtle_frames, global_tick * .4, spr_turtle_number, player_x, screen_height * .75, true, spr_turtle_width, spr_turtle_height);
+
+  }
+
+  if (frame)
+  {
+    // border
+    arduboy.drawRect(0, 0, screen_width, screen_height);
+  }
   arduboy.display();
 }
