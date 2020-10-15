@@ -1,7 +1,7 @@
-#ifndef ASSETS_H
-#define ASSETS_H
+#ifndef SPR_TURTLE_H
+#define SPR_TURTLE_H
 
-#define spr_turtle_num 12
+#define spr_turtle_number 12
 #define spr_turtle_width 27
 #define spr_turtle_height 27
 
@@ -773,7 +773,7 @@ PROGMEM const unsigned char spr_turtle_bw_9_plus_mask[] = {
 
 };
 
-const uint8_t* spr_turtle[] =
+const uint8_t* spr_turtle_frames[] =
 {
   spr_turtle_bw_0_plus_mask,
   spr_turtle_bw_1_plus_mask,
