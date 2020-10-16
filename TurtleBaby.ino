@@ -11,8 +11,8 @@ Arduboy2 arduboy;
 
 enum rooms
 {
-  rm_menu,
-  rm_game
+    rm_menu,
+    rm_game
 };
 
 unsigned int room = rm_menu;
@@ -29,78 +29,78 @@ bool frame = false;
 
 void setup()
 {
-  arduboy.begin();
-  arduboy.setFrameRate(60);
-  common_var = 0;
+    arduboy.begin();
+    arduboy.setFrameRate(60);
+    common_var = 0;
 }
 
 void ripple(double percent)
 {
-  arduboy.drawFastHLine(0, horizon_height + (screen_height - horizon_height)*sq(sq(percent)), screen_width);
+    arduboy.drawFastHLine(0, horizon_height + (screen_height - horizon_height)*sq(sq(percent)), screen_width);
 }
 
 void draw_sprite( uint8_t* frames[], int index, int number, int x, int y, bool centered = false, int w = 0, int h = 0)
 {
-  if (centered)
-  {
-    x -= w * .5;
-    y -= h * .5;
-  }
+    if (centered)
+    {
+        x -= w * .5;
+        y -= h * .5;
+    }
 
-  index = index % number;
+    index = index % number;
 
-  sprites.drawPlusMask(x, y, frames[index], 0);
+    sprites.drawPlusMask(x, y, frames[index], 0);
 }
 
 void loop()
 {
-  if (!arduboy.nextFrame())
-    return;
-  else
-    global_tick += 1;
-
-  if (room == rm_menu)
-  {
-    if (common_var < 100)
-      common_var += 1;
+    if (!arduboy.nextFrame())
+        return;
     else
-      frame = true;
+        global_tick += 1;
 
-    arduboy.clear();
+    if (room == rm_menu)
+    {
+        if (common_var < 100)
+            common_var += 1;
+        else
+            frame = true;
 
-    draw_sprite(spr_title_frames, 0, 1, (1 - (common_var / 100.)) * -screen_width, 0);
+        arduboy.clear();
 
-    if (arduboy.pressed(B_BUTTON) or arduboy.pressed(B_BUTTON))
-      room = rm_game;
-  }
-  else if (room == rm_game)
-  {
-    if (arduboy.pressed(LEFT_BUTTON))
-      player_x -= 1;
+        draw_sprite(spr_title_frames, 0, 1, (1 - (common_var / 100.)) * -screen_width, 0);
 
-    if (arduboy.pressed(RIGHT_BUTTON))
-      player_x += 1;
+        if (arduboy.pressed(B_BUTTON) or arduboy.pressed(B_BUTTON))
+            room = rm_game;
+    }
+    else if (room == rm_game)
+    {
+        if (arduboy.pressed(LEFT_BUTTON))
+            player_x -= 1;
 
-    player_x = max(1 + spr_turtle_width * .5, min(player_x, screen_width - spr_turtle_width * .5));
+        if (arduboy.pressed(RIGHT_BUTTON))
+            player_x += 1;
 
-    arduboy.clear();
+        player_x = max(1 + spr_turtle_width * .5, min(player_x, screen_width - spr_turtle_width * .5));
 
-    // horizon
-    arduboy.drawFastHLine(0, horizon_height, screen_width);
+        arduboy.clear();
 
-    ripple((double)((global_tick + 00) % 100) / 100.);
-    ripple((double)((global_tick + 25) % 100) / 100.);
-    ripple((double)((global_tick + 50) % 100) / 100.);
-    ripple((double)((global_tick + 75) % 100) / 100.);
+        // horizon
+        arduboy.drawFastHLine(0, horizon_height, screen_width);
 
-    draw_sprite(spr_turtle_frames, global_tick * .4, spr_turtle_number, player_x, screen_height * .75, true, spr_turtle_width, spr_turtle_height);
+        for (int i = 0; i < num_ripples; i++)
+        {
+            ripple((double)((int)(global_tick * 0.5 + ((double)i * (1. / num_ripples) * 100.)) % 100) / 100.);
+        }
 
-  }
+        draw_sprite(spr_turtle_frames, global_tick * .4, spr_turtle_number, player_x, screen_height * .75, true, spr_turtle_width, spr_turtle_height);
 
-  if (frame)
-  {
-    // border
-    arduboy.drawRect(0, 0, screen_width, screen_height);
-  }
-  arduboy.display();
+    }
+
+    if (frame)
+    {
+        // border
+        arduboy.drawRect(0, 0, screen_width, screen_height);
+    }
+    arduboy.display();
 }
