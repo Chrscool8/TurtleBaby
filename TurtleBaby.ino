@@ -14,7 +14,6 @@ Sprites sprites;
 #define horizon_height 22
 #define num_ripples 4.
 
-
 enum rooms
 {
     rm_menu,
@@ -46,6 +45,9 @@ void start_game()
     room = rm_game;
     player_x = screen_width * .5;
     player_y = screen_height * .75;
+    frame = true;
+
+    randomSeed(analogRead(0));
 }
 
 void instance_create(int type, int x, int y)
