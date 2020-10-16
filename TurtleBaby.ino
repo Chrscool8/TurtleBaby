@@ -110,5 +110,6 @@ void loop()
         // border
         arduboy.drawRect(0, 0, screen_width, screen_height);
     }
+
     arduboy.display();
 }
