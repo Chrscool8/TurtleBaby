@@ -6,6 +6,7 @@ Sprites sprites;
 #include "spr_title.h"
 #include "spr_turtle.h"
 #include "spr_grass_1.h"
+#include "utils.h"
 
 #define screen_width 128
 #define screen_height 64
@@ -30,6 +31,7 @@ int common_var = 0;
 
 bool frame = false;
 
+LinkedList<Object> objects = LinkedList<Object>();
 void setup()
 {
     arduboy.begin();
@@ -43,6 +45,13 @@ void start_game()
     player_x = screen_width * .5;
     player_y = screen_height * .75;
 }
+
+void instance_create(int x, int y, int type)
+{
+    Object obj = {type, x, y, 0.0};
+    objects.add(obj);
+}
+
 void ripple(double percent)
 {
     arduboy.drawFastHLine(0, horizon_height + (screen_height - horizon_height)*sq(sq(percent)), screen_width);
