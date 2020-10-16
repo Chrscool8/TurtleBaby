@@ -3,6 +3,7 @@ Arduboy2 arduboy;
 
 #include "spr_title.h"
 #include "spr_turtle.h"
+#include "spr_grass_1.h"
 
 #define screen_width 128
 #define screen_height 64

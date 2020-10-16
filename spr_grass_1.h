@@ -1,0 +1,32 @@
+#ifndef SPR_GRASS_H
+#define SPR_GRASS_H
+
+// spr_grass_1.png
+// 8x8
+PROGMEM const unsigned char spr_grass_1[] = {
+    // width, height
+    8, 8,
+    0x00, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00
+
+};
+
+PROGMEM const unsigned char spr_grass_1_mask[] = {
+    // width, height
+    8, 8,
+    0x20, 0x61, 0xC3, 0xFE, 0xE0, 0xF8, 0x9C, 0x04
+
+};
+
+PROGMEM const unsigned char spr_grass_1_plus_mask[] = {
+    // width, height
+    8, 8,
+    0x00, 0x20, 0x00, 0x61, 0x00, 0xC3, 0x00, 0xFE, 0x40, 0xE0,
+    0x00, 0xF8, 0x00, 0x9C, 0x00, 0x04,
+
+};
+
+const uint8_t* spr_grass_1_frames[] =
+{
+    spr_grass_1
+};
+#endif
