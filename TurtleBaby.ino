@@ -101,7 +101,7 @@ void loop()
             ripple((double)((int)(global_tick * 0.5 + ((double)i * (1. / num_ripples) * 100.)) % 100) / 100.);
         }
 
-        draw_sprite(spr_turtle_frames, global_tick * .4, spr_turtle_number, player_x, screen_height * .75, true, spr_turtle_width, spr_turtle_height);
+        draw_sprite(spr_turtle_frames, global_tick * .4, spr_turtle_number, player_x, player_y, true, spr_turtle_width, spr_turtle_height);
 
     }
 
