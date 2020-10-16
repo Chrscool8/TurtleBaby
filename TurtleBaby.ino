@@ -23,7 +23,8 @@ Sprites sprites;
 
 unsigned int global_tick = 0;
 
-int player_x = screen_width * .5;
+int player_x;
+int player_y;
 
 int common_var = 0;
 
@@ -36,6 +37,12 @@ void setup()
     common_var = 0;
 }
 
+void start_game()
+{
+    room = rm_game;
+    player_x = screen_width * .5;
+    player_y = screen_height * .75;
+}
 void ripple(double percent)
 {
     arduboy.drawFastHLine(0, horizon_height + (screen_height - horizon_height)*sq(sq(percent)), screen_width);
@@ -71,7 +78,9 @@ void loop()
         draw_sprite(spr_title_frames, 0, 1, (1. - (common_var / 100.)) * -screen_width, 0);
 
         if (arduboy.pressed(B_BUTTON) or arduboy.pressed(B_BUTTON))
-            room = rm_game;
+        {
+            start_game();
+        }
     }
     else if (room == rm_game)
     {
