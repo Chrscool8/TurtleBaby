@@ -77,6 +77,8 @@ void loop()
     else
         global_tick += 1;
 
+    arduboy.pollButtons();
+
     if (room == rm_menu)
     {
         if (common_var < 100)
@@ -88,7 +90,7 @@ void loop()
 
         draw_sprite(spr_title_frames, 0, 1, (1. - (common_var / 100.)) * -screen_width, 0);
 
-        if (arduboy.pressed(B_BUTTON) or arduboy.pressed(B_BUTTON))
+        if (arduboy.justPressed(B_BUTTON) or arduboy.justPressed(A_BUTTON))
         {
             start_game();
         }
