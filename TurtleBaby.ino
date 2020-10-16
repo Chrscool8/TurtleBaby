@@ -48,9 +48,13 @@ void start_game()
     player_y = screen_height * .75;
 }
 
-void instance_create(int x, int y, int type)
+void instance_create(int type, int x, int y)
 {
-    Object obj = {type, x, y, 0.0};
+    Object obj;
+    obj.object_type = type;
+    obj.x = x;
+    obj.y = y;
+    obj.percent = 0.0;
     objects.add(obj);
 }
 
@@ -105,6 +109,9 @@ void loop()
 
         player_x = max(1 + spr_turtle_width * .5, min(player_x, screen_width - spr_turtle_width * .5));
 
+        if (arduboy.everyXFrames(73))
+            instance_create(obj_grass_1, random(10, screen_width - 10), horizon_height);
+
         arduboy.clear();
 
         // horizon
@@ -116,6 +123,35 @@ void loop()
         }
 
         draw_sprite(spr_turtle_frames, global_tick * .4, spr_turtle_number, player_x, player_y, true, spr_turtle_width, spr_turtle_height);
+        for (int i = 0; i < objects.size(); i++)
+        {
+            Object current = objects.get(i);
+            switch (current.object_type)
+            {
+                case obj_grass_1:
+
+                    current.percent += .005;
+                    current.y = percent_height_function(current.percent) ;
+
+                    if (current.percent < .5)
+                        draw_sprite(spr_grass_1_small_frames, 0, spr_grass_1_number, current.x, current.y - spr_grass_1_height);
+                    else
+                        draw_sprite(spr_grass_1_frames, 0, spr_grass_1_number, current.x, current.y - spr_grass_1_height);
+
+                    if (current.y > screen_height + spr_grass_1_height)
+                    {
+                        objects.remove(i);
+                        i -= 1;
+                    }
+                    else
+                    {
+                        objects.set(i, current);
+                    }
+
+                    break;
+                default: break;
+            }
+        }
 
     }
 
