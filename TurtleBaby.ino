@@ -58,9 +58,14 @@ void instance_create(int type, int x, int y)
     objects.add(obj);
 }
 
+int percent_height_function(double percent)
+{
+    return horizon_height + (screen_height - horizon_height) * (percent * percent * percent);
+}
+
 void ripple(double percent)
 {
-    arduboy.drawFastHLine(0, horizon_height + (screen_height - horizon_height)*sq(sq(percent)), screen_width);
+    arduboy.drawFastHLine(0, percent_height_function(percent), screen_width);
 }
 
 void draw_sprite(const uint8_t* frames[], int index, int number, int x, int y, bool centered = false, int w = 0, int h = 0)
@@ -122,7 +127,6 @@ void loop()
             ripple((double)((int)(global_tick * 0.5 + ((double)i * (1. / num_ripples) * 100.)) % 100) / 100.);
         }
 
-        draw_sprite(spr_turtle_frames, global_tick * .4, spr_turtle_number, player_x, player_y, true, spr_turtle_width, spr_turtle_height);
         for (int i = 0; i < objects.size(); i++)
         {
             Object current = objects.get(i);
@@ -153,6 +157,7 @@ void loop()
             }
         }
 
+        draw_sprite(spr_turtle_frames, global_tick * .4, spr_turtle_number, player_x, player_y, true, spr_turtle_width, spr_turtle_height);
     }
 
     if (frame)
