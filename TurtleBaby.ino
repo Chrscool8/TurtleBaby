@@ -2,6 +2,7 @@
 Arduboy2 arduboy;
 Sprites sprites;
 
+#include "include/LinkedList.h"
 #include "spr_title.h"
 #include "spr_turtle.h"
 #include "spr_grass_1.h"
