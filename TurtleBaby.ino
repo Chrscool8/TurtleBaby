@@ -1,5 +1,6 @@
 #include <Arduboy2.h>
 Arduboy2 arduboy;
+Sprites sprites;
 
 #include "spr_title.h"
 #include "spr_turtle.h"
@@ -18,8 +19,6 @@ enum rooms
 };
 
 unsigned int room = rm_menu;
-
-Sprites sprites;
 
 unsigned int global_tick = 0;
 
