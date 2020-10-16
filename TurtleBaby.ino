@@ -39,7 +39,7 @@ void ripple(double percent)
     arduboy.drawFastHLine(0, horizon_height + (screen_height - horizon_height)*sq(sq(percent)), screen_width);
 }
 
-void draw_sprite( uint8_t* frames[], int index, int number, int x, int y, bool centered = false, int w = 0, int h = 0)
+void draw_sprite(const uint8_t* frames[], int index, int number, int x, int y, bool centered = false, int w = 0, int h = 0)
 {
     if (centered)
     {
@@ -47,9 +47,7 @@ void draw_sprite( uint8_t* frames[], int index, int number, int x, int y, bool c
         y -= h * .5;
     }
 
-    index = index % number;
-
-    sprites.drawPlusMask(x, y, frames[index], 0);
+    sprites.drawPlusMask(x, y, frames[index % number], 0);
 }
 
 void loop()
@@ -68,7 +66,7 @@ void loop()
 
         arduboy.clear();
 
-        draw_sprite(spr_title_frames, 0, 1, (1 - (common_var / 100.)) * -screen_width, 0);
+        draw_sprite(spr_title_frames, 0, 1, (1. - (common_var / 100.)) * -screen_width, 0);
 
         if (arduboy.pressed(B_BUTTON) or arduboy.pressed(B_BUTTON))
             room = rm_game;
