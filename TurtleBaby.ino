@@ -14,6 +14,7 @@ Sprites sprites;
 #define horizon_height 22
 #define num_ripples 4.
 
+
 enum rooms
 {
     rm_menu,
@@ -32,6 +33,7 @@ int common_var = 0;
 bool frame = false;
 
 LinkedList<Object> objects = LinkedList<Object>();
+
 void setup()
 {
     arduboy.begin();
