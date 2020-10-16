@@ -1,4 +1,5 @@
 enum enum_object_types {
+    obj_null,
     obj_grass_1,
     obj_grass_2,
     obj_coin
