@@ -9,6 +9,7 @@ Arduboy2 arduboy;
 #define screen_height 64
 
 #define horizon_height 22
+#define num_ripples 4.
 
 enum rooms
 {
