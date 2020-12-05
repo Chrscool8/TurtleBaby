@@ -6,6 +6,7 @@ Sprites sprites;
 #include "spr_title.h"
 #include "spr_turtle.h"
 #include "spr_grass_1.h"
+#include "spr_coin.h"
 #include "utils.h"
 
 #define screen_width 128
@@ -31,6 +32,8 @@ int common_var = 0;
 
 bool frame = false;
 
+unsigned int score = 0;
+
 LinkedList<Object> objects = LinkedList<Object>();
 
 void setup()
@@ -46,6 +49,8 @@ void start_game()
     player_x = screen_width * .5;
     player_y = screen_height * .75;
     frame = true;
+
+    score = 0;
 
     randomSeed(analogRead(0));
 }
@@ -119,7 +124,14 @@ void loop()
         if (arduboy.everyXFrames(73))
             instance_create(obj_grass_1, random(10, screen_width - 10), horizon_height);
 
+        if (arduboy.everyXFrames(102))
+            instance_create(obj_coin, random(10, screen_width - 10), horizon_height);
+
         arduboy.clear();
+
+        arduboy.setCursor(3, 3);
+        arduboy.write("Turtcoins: ");
+        arduboy.write(String(score).c_str());
 
         // horizon
         arduboy.drawFastHLine(0, horizon_height, screen_width);
@@ -155,6 +167,35 @@ void loop()
                     }
 
                     break;
+
+                case obj_coin:
+
+                    current.percent += .005;
+                    current.y = percent_height_function(current.percent) ;
+
+                    draw_sprite(spr_coin_frames, current.percent * 16., spr_coin_number, current.x, current.y - spr_coin_height);
+
+                    // collide with turtle
+                    if ((current.y > screen_height - spr_turtle_height * .5) && abs((current.x + spr_coin_width * .5) - (player_x)) < spr_turtle_width * .5)
+                    {
+                        objects.remove(i);
+                        i -= 1;
+                        score += 1;
+                    }
+                    // off screen
+                    else if (current.y > screen_height + spr_coin_height)
+                    {
+                        objects.remove(i);
+                        i -= 1;
+                    }
+                    // normal movement step
+                    else
+                    {
+                        objects.set(i, current);
+                    }
+
+                    break;
+
                 default: break;
             }
         }
