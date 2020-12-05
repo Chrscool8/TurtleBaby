@@ -1,5 +1,8 @@
 #include <Arduboy2.h>
+#include <ArduboyTones.h>
+
 Arduboy2 arduboy;
+ArduboyTones sound(arduboy.audio.enabled);
 Sprites sprites;
 
 #include "include/LinkedList.h"
@@ -8,6 +11,7 @@ Sprites sprites;
 #include "spr_grass_1.h"
 #include "spr_coin.h"
 #include "utils.h"
+#include "msc_totalth.h"
 
 #define screen_width 128
 #define screen_height 64
@@ -53,6 +57,8 @@ void start_game()
     score = 0;
 
     randomSeed(analogRead(0));
+
+    sound.tones(msc_totalth);
 }
 
 void instance_create(int type, int x, int y)
