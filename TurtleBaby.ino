@@ -11,7 +11,7 @@ Sprites sprites;
 #include "spr_grass_1.h"
 #include "spr_coin.h"
 #include "utils.h"
-#include "msc_totalth.h"
+#include "audio.h"
 
 #define screen_width 128
 #define screen_height 64
@@ -36,7 +36,7 @@ int common_var = 0;
 
 bool frame = false;
 
-unsigned int score = 0;
+int score = 0;
 
 LinkedList<Object> objects = LinkedList<Object>();
 
@@ -193,6 +193,7 @@ void loop()
                     {
                         objects.remove(i);
                         i -= 1;
+                        score -= 1;
                     }
                     // normal movement step
                     else
