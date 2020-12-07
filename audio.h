@@ -46,3 +46,10 @@ const uint16_t snd_collect[] PROGMEM = {
     NOTE_C7, NOTE_SIXTEENTH / 2,
     TONES_END
 };
+
+const uint16_t snd_miss[] PROGMEM = {
+    NOTE_C7, NOTE_SIXTEENTH / 2,
+    NOTE_G6, NOTE_SIXTEENTH / 2,
+    NOTE_E6, NOTE_SIXTEENTH / 2,
+    TONES_END
+};
