@@ -38,6 +38,8 @@ bool frame = false;
 
 int score = 0;
 
+int game_speed = 1;
+
 LinkedList<Object> objects = LinkedList<Object>();
 
 void setup()
@@ -138,6 +140,8 @@ void loop()
         arduboy.setCursor(3, 3);
         arduboy.write("Turtcoins: ");
         arduboy.write(String(score).c_str());
+        arduboy.write("   ");
+        arduboy.write(String(game_speed).c_str());
 
         // horizon
         arduboy.drawFastHLine(0, horizon_height, screen_width);
@@ -154,7 +158,7 @@ void loop()
             {
                 case obj_grass_1:
 
-                    current.percent += .005;
+                    current.percent += .005 * game_speed;
                     current.y = percent_height_function(current.percent) ;
 
                     if (current.percent < .5)
@@ -176,7 +180,7 @@ void loop()
 
                 case obj_coin:
 
-                    current.percent += .005;
+                    current.percent += .005 * game_speed;
                     current.y = percent_height_function(current.percent) ;
 
                     draw_sprite(spr_coin_frames, current.percent * 16., spr_coin_number, current.x, current.y - spr_coin_height);
@@ -206,6 +210,8 @@ void loop()
                 default: break;
             }
         }
+
+        game_speed = max(1, floor(score / 10.));
 
         draw_sprite(spr_turtle_frames, global_tick * .4, spr_turtle_number, player_x, player_y, true, spr_turtle_width, spr_turtle_height);
     }
