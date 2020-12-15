@@ -3,6 +3,7 @@
 
 Arduboy2 arduboy;
 ArduboyTones sound(arduboy.audio.enabled);
+//BeepPin2 beep;
 Sprites sprites;
 
 #include "include/LinkedList.h"
@@ -47,6 +48,17 @@ void setup()
     arduboy.begin();
     arduboy.setFrameRate(60);
     common_var = 0;
+    sound.tones(msc_totalth);
+    //beep.begin();
+}
+
+int sign(int num)
+{
+    if (num == 0)
+        return 0;
+    else if (num > 0)
+        return 1;
+    else return -1;
 }
 
 void start_game()
@@ -60,7 +72,7 @@ void start_game()
 
     randomSeed(analogRead(0));
 
-    sound.tones(msc_totalth);
+    // sound.tones(msc_totalth);
 }
 
 void instance_create(int type, int x, int y)
@@ -191,6 +203,9 @@ void loop()
                         objects.remove(i);
                         i -= 1;
                         score += 1;
+                        //beep.tone(beep.freq(587.330), 15);
+                        sound.tones(snd_collect);
+
                     }
                     // off screen
                     else if (current.y > screen_height + spr_coin_height)
@@ -198,6 +213,8 @@ void loop()
                         objects.remove(i);
                         i -= 1;
                         score -= 1;
+                        sound.tones(snd_miss);
+
                     }
                     // normal movement step
                     else
